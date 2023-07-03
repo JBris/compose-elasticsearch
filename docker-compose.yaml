@@ -24,6 +24,8 @@ services:
   heartbeat:
     image: elastic/heartbeat:${HEARTBEAT_TAG}
     user: heartbeat
+    restart: unless-stopped
+    stop_grace_period: 10s
     cap_add:
       - NET_RAW
     volumes:
@@ -36,6 +38,8 @@ services:
   metricbeat:
     image: elastic/metricbeat:${METRICBEAT_TAG}
     user: root
+    restart: unless-stopped
+    stop_grace_period: 10s
     cap_add:
       - sys_ptrace 
       - dac_read_search
@@ -52,6 +56,8 @@ services:
   filebeat:
     image: elastic/filebeat:${FILEBEAT_TAG}
     user: root
+    restart: unless-stopped
+    stop_grace_period: 10s
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - /var/lib/docker/containers:/var/lib/docker/containers:ro
@@ -64,6 +70,8 @@ services:
   auditbeat:
     image: elastic/auditbeat:${AUDITBEAT_TAG}
     user: root
+    restart: unless-stopped
+    stop_grace_period: 10s
     pid: host 
     cap_add:
       - AUDIT_CONTROL
