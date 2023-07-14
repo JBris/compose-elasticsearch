@@ -1,0 +1,39 @@
+pipeline:
+  workers: ${PIPELINE_WORKERS:4}
+  unsafe_shutdown: false
+  ordered: auto
+  ecs_compatibility: disabled
+  batch:
+    size: ${BATCH_SIZE:125}
+    delay: ${BATCH_DELAY:50}
+
+path:
+   queue: "/tmp/${QUEUE_DIR:queue}"
+
+config:
+  test_and_exit: false
+  support_escapes: false
+  debug: false
+  reload:
+    automatic: true
+    interval: 600s
+
+queue:
+  type: memory
+
+api:
+  enabled: true
+  environment: ${LOGSTASH_API_ENVIRONMENT:development}
+  http:
+    host: "0.0.0.0"
+    port: ${LOGSTASH_API_PORT:9600}
+  ssl:
+    enabled: false
+  auth:
+    type: none
+
+log:
+  level: info
+  format: json
+
+allow_superuser: true

@@ -21,6 +21,17 @@ services:
     ports:
       - ${KIBANA_PORT}:5601
 
+  logstash:
+    image: logstash:${LOGSTASH_TAG}
+    restart: unless-stopped
+    stop_grace_period: 10s
+    ports:
+      - ${LOGSTASH_PORT}:5044 
+      - ${LOGSTASH_API_PORT}:9600
+    volumes:
+      - ./config/logstash.yml:/usr/share/logstash/config/logstash.yml:ro
+      - ./pipeline:/usr/share/logstash/pipeline
+
   heartbeat:
     image: elastic/heartbeat:${HEARTBEAT_TAG}
     user: heartbeat
